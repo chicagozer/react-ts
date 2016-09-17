@@ -1,7 +1,9 @@
 module.exports = {
     entry: "./src/index.tsx",
     output: {
-        filename: "./dist/bundle.js",
+	path: __dirname,
+        filename: "bundle.js",
+	publicPath: "/static/"
     },
 
     devServer: { inline: true, hot: true },
