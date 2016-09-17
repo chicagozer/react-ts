@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "es6",
+        "jsx": "react"
+    },
+    "files": [
+        "./typings/index.d.ts",
+        "src/actions/index.tsx",
+        "src/components/Picker.tsx",
+        "src/components/Posts.tsx",
+        "src/containers/App.tsx",
+        "src/index.tsx",
+        "src/reducers/index.tsx"
+    ],
+    "filesGlob": [
+        "./typings/index.d.ts",
+        "**/*.tsx",
+        "!node_modules/**"
+    ]
+}
