@@ -57,7 +57,9 @@
 	var middleware = [redux_thunk_1.default];
 	var hack = createLogger();
 	middleware.push(hack);
-	var store = redux_1.createStore(reducers_1.default, redux_1.applyMiddleware.apply(redux_1, middleware));
+	var store = redux_1.createStore(reducers_1.default, redux_1.compose(redux_1.applyMiddleware.apply(redux_1, middleware), window.devToolsExtension ? window.devToolsExtension() : function (f) {
+	  return f;
+	}));
 	ReactDOM.render(React.createElement(react_redux_1.Provider, { store: store }, React.createElement(App_1.default, null)), document.getElementById("root"));
 
 /***/ },
