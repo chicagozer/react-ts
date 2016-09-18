@@ -11,12 +11,11 @@ import App from './containers/App';
 const middleware = [thunk, createLogger()]
 
 // this is a bit hacky - not sure how to cast (<any>window) without JSX getting upset
-declare var window:any;
 
 const store = createStore(
     reducer,
     compose(applyMiddleware(...middleware),
-        window.devToolsExtension ? window.devToolsExtension() : f => f)
+        (window as any).devToolsExtension ? (window as any).devToolsExtension() : f => f)
 )
 
 ReactDOM.render(
