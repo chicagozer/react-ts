@@ -4,7 +4,7 @@ interface PostsProps {
     posts: any[];
 }
 
-class Posts extends React.Component<PostsProps,{}> {
+class Posts extends React.Component< PostsProps, {} > {
 
     constructor(props: PostsProps) {
         super(props);

@@ -5,8 +5,8 @@
   "main": "./dist/bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-     "postinstall": "typings install",
-     "start": "webpack-dev-server --inline --hot"
+    "postinstall": "typings install",
+    "start": "webpack-dev-server --inline --hot"
   },
   "author": "",
   "license": "ISC",
@@ -26,7 +26,9 @@
     "whatwg-streams": "^0.1.1"
   },
   "devDependencies": {
+    "codelyzer": "0.0.28",
     "source-map-loader": "^0.1.5",
-    "ts-loader": "^0.8.2"
+    "ts-loader": "^0.8.2",
+    "tslint": "^3.15.1"
   }
 }
