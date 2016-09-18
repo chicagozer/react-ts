@@ -54,9 +54,7 @@
 	var redux_thunk_1 = __webpack_require__(29);
 	var reducers_1 = __webpack_require__(30);
 	var App_1 = __webpack_require__(33);
-	var middleware = [redux_thunk_1.default];
-	var hack = createLogger();
-	middleware.push(hack);
+	var middleware = [redux_thunk_1.default, createLogger()];
 	var store = redux_1.createStore(reducers_1.default, redux_1.compose(redux_1.applyMiddleware.apply(redux_1, middleware), window.devToolsExtension ? window.devToolsExtension() : function (f) {
 	  return f;
 	}));
