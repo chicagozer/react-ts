@@ -45,6 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
 	const React = __webpack_require__(1);
 	const ReactDOM = __webpack_require__(2);
 	const react_redux_1 = __webpack_require__(3);
@@ -57,8 +58,7 @@
 	var hack = createLogger();
 	middleware.push(hack);
 	const store = redux_1.createStore(reducers_1.default, redux_1.applyMiddleware(...middleware));
-	ReactDOM.render(React.createElement(react_redux_1.Provider, {store: store}, React.createElement(App_1.default, null)), document.getElementById("root"));
-
+	ReactDOM.render(React.createElement(react_redux_1.Provider, { store: store }, React.createElement(App_1.default, null)), document.getElementById("root"));
 
 /***/ },
 /* 1 */
@@ -2127,6 +2127,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
 	const redux_1 = __webpack_require__(11);
 	const actions_1 = __webpack_require__(31);
 	function selectedReddit(state = 'reactjs', action) {
@@ -2138,10 +2139,10 @@
 	    }
 	}
 	function posts(state = {
-	        isFetching: false,
-	        didInvalidate: false,
-	        items: []
-	    }, action) {
+	    isFetching: false,
+	    didInvalidate: false,
+	    items: []
+	}, action) {
 	    switch (action.type) {
 	        case actions_1.INVALIDATE_REDDIT:
 	            return Object.assign({}, state, {
@@ -2182,12 +2183,12 @@
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = rootReducer;
 
-
 /***/ },
 /* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
 	__webpack_require__(32);
 	exports.REQUEST_POSTS = 'REQUEST_POSTS';
 	exports.RECEIVE_POSTS = 'RECEIVE_POSTS';
@@ -2225,27 +2226,23 @@
 	    return {
 	        type: exports.RECEIVE_POSTS,
 	        reddit: reddit,
-	        posts: json.data.children.map((child) => child.data),
+	        posts: json.data.children.map(child => child.data),
 	        receivedAt: Date.now()
 	    };
 	}
 	function fetchPosts(reddit) {
-	    return (dispatch) => {
+	    return dispatch => {
 	        dispatch(requestPosts(reddit));
-	        return fetch(`https://www.reddit.com/r/${reddit}.json`)
-	            .then((response) => response.json())
-	            .then((json) => dispatch(receivePosts(reddit, json)));
+	        return fetch(`https://www.reddit.com/r/${ reddit }.json`).then(response => response.json()).then(json => dispatch(receivePosts(reddit, json)));
 	    };
 	}
 	function shouldFetchPosts(state, reddit) {
 	    const posts = state.postsByReddit[reddit];
 	    if (!posts) {
 	        return true;
-	    }
-	    else if (posts.isFetching) {
+	    } else if (posts.isFetching) {
 	        return false;
-	    }
-	    else {
+	    } else {
 	        return posts.didInvalidate;
 	    }
 	}
@@ -2257,7 +2254,6 @@
 	    };
 	}
 	exports.fetchPostsIfNeeded = fetchPostsIfNeeded;
-
 
 /***/ },
 /* 32 */
@@ -2703,6 +2699,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
 	const React = __webpack_require__(1);
 	const react_redux_1 = __webpack_require__(3);
 	const actions_1 = __webpack_require__(31);
@@ -2712,8 +2709,8 @@
 	class App extends React.Component {
 	    constructor(props) {
 	        super(props);
-	        this.handleChange = (nextReddit) => this.props.dispatch(actions_1.selectReddit(nextReddit));
-	        this.handleRefreshClick = (e) => {
+	        this.handleChange = nextReddit => this.props.dispatch(actions_1.selectReddit(nextReddit));
+	        this.handleRefreshClick = e => {
 	            e.preventDefault();
 	            const { dispatch, selectedReddit } = this.props;
 	            dispatch(actions_1.invalidateReddit(selectedReddit));
@@ -2731,11 +2728,7 @@
 	    }
 	    render() {
 	        const isEmpty = this.props.posts.length === 0;
-	        return (React.createElement("div", null, React.createElement(AddReddit_1.default, {onSubmit: this.handleChange}), React.createElement(Picker_1.default, {value: this.props.selectedReddit, onChange: this.handleChange, options: this.props.reddits}), React.createElement("p", null, this.props.lastUpdated &&
-	            React.createElement("span", null, "Last updated at ", new Date(this.props.lastUpdated).toLocaleTimeString(), ".", ' '), !this.props.isFetching &&
-	            React.createElement("a", {href: '#', onClick: this.handleRefreshClick}, "Refresh")), isEmpty
-	            ? (this.props.isFetching ? React.createElement("h2", null, "Loading...") : React.createElement("h2", null, "Empty."))
-	            : React.createElement("div", {style: { opacity: this.props.isFetching ? 0.5 : 1 }}, React.createElement(Posts_1.default, {posts: this.props.posts}))));
+	        return React.createElement("div", null, React.createElement(AddReddit_1.default, { onSubmit: this.handleChange }), React.createElement(Picker_1.default, { value: this.props.selectedReddit, onChange: this.handleChange, options: this.props.reddits }), React.createElement("p", null, this.props.lastUpdated && React.createElement("span", null, "Last updated at ", new Date(this.props.lastUpdated).toLocaleTimeString(), ".", ' '), !this.props.isFetching && React.createElement("a", { href: '#', onClick: this.handleRefreshClick }, "Refresh")), isEmpty ? this.props.isFetching ? React.createElement("h2", null, "Loading...") : React.createElement("h2", null, "Empty.") : React.createElement("div", { style: { opacity: this.props.isFetching ? 0.5 : 1 } }, React.createElement(Posts_1.default, { posts: this.props.posts })));
 	    }
 	}
 	function mapStateToProps(state) {
@@ -2759,12 +2752,12 @@
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = react_redux_1.connect(mapStateToProps)(App);
 
-
 /***/ },
 /* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
 	const React = __webpack_require__(1);
 	class Picker extends React.Component {
 	    constructor(props) {
@@ -2774,36 +2767,36 @@
 	        this.props.onChange(event.target.value);
 	    }
 	    render() {
-	        return (React.createElement("span", null, React.createElement("h1", null, this.props.value), React.createElement("select", {onChange: e => this.handleOnChange(e), value: this.props.value}, this.props.options.map(option => React.createElement("option", {value: option, key: option}, option)))));
+	        return React.createElement("span", null, React.createElement("h1", null, this.props.value), React.createElement("select", { onChange: e => this.handleOnChange(e), value: this.props.value }, this.props.options.map(option => React.createElement("option", { value: option, key: option }, option))));
 	    }
 	}
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = Picker;
-
 
 /***/ },
 /* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
 	const React = __webpack_require__(1);
 	class Posts extends React.Component {
 	    constructor(props) {
 	        super(props);
 	    }
 	    render() {
-	        return (React.createElement("ul", null, this.props.posts.map((post, i) => React.createElement("li", {key: i}, post.title))));
+	        return React.createElement("ul", null, this.props.posts.map((post, i) => React.createElement("li", { key: i }, post.title)));
 	    }
 	}
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = Posts;
-
 
 /***/ },
 /* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
 	const React = __webpack_require__(1);
 	class AddReddit extends React.Component {
 	    constructor(props) {
@@ -2814,21 +2807,20 @@
 	    }
 	    render() {
 	        let input;
-	        return (React.createElement("div", null, React.createElement("form", {onSubmit: e => {
-	            e.preventDefault();
-	            if (!input.value.trim()) {
-	                return;
-	            }
-	            this.handleOnSubmit(input.value);
-	            input.value = '';
-	        }}, React.createElement("input", {ref: node => {
-	            input = node;
-	        }}), React.createElement("button", {type: 'submit'}, "Add Reddit"))));
+	        return React.createElement("div", null, React.createElement("form", { onSubmit: e => {
+	                e.preventDefault();
+	                if (!input.value.trim()) {
+	                    return;
+	                }
+	                this.handleOnSubmit(input.value);
+	                input.value = '';
+	            } }, React.createElement("input", { ref: node => {
+	                input = node;
+	            } }), React.createElement("button", { type: 'submit' }, "Add Reddit")));
 	    }
 	}
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = AddReddit;
-
 
 /***/ }
 /******/ ]);
