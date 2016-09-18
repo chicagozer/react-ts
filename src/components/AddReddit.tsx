@@ -8,7 +8,7 @@ interface AddRedditProps {
 }
 class AddReddit extends React.Component<AddRedditProps,{}> {
 
-    constructor(props: any) {
+    constructor(props: AddRedditProps) {
         super(props);
     }
 

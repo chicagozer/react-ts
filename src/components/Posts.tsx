@@ -6,7 +6,7 @@ interface PostsProps {
 
 class Posts extends React.Component<PostsProps,{}> {
 
-    constructor(props: any) {
+    constructor(props: PostsProps) {
         super(props);
 
     }
