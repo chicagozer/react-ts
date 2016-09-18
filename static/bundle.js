@@ -2733,16 +2733,16 @@
 	        const isEmpty = this.props.posts.length === 0;
 	        return (React.createElement("div", null, React.createElement(AddReddit_1.default, {onSubmit: this.handleChange}), React.createElement(Picker_1.default, {value: this.props.selectedReddit, onChange: this.handleChange, options: this.props.reddits}), React.createElement("p", null, this.props.lastUpdated &&
 	            React.createElement("span", null, "Last updated at ", new Date(this.props.lastUpdated).toLocaleTimeString(), ".", ' '), !this.props.isFetching &&
-	            React.createElement("a", {href: "#", onClick: this.handleRefreshClick}, "Refresh")), isEmpty
+	            React.createElement("a", {href: '#', onClick: this.handleRefreshClick}, "Refresh")), isEmpty
 	            ? (this.props.isFetching ? React.createElement("h2", null, "Loading...") : React.createElement("h2", null, "Empty."))
 	            : React.createElement("div", {style: { opacity: this.props.isFetching ? 0.5 : 1 }}, React.createElement(Posts_1.default, {posts: this.props.posts}))));
 	    }
 	}
 	function mapStateToProps(state) {
 	    const { selectedReddit, postsByReddit } = state;
-	    var posts = [];
-	    var isFetching = true;
-	    var lastUpdated;
+	    let posts = [];
+	    let isFetching = true;
+	    let lastUpdated;
 	    if (postsByReddit[selectedReddit]) {
 	        posts = postsByReddit[selectedReddit].items || [];
 	        isFetching = postsByReddit[selectedReddit].isFetching;
@@ -2823,7 +2823,7 @@
 	            input.value = '';
 	        }}, React.createElement("input", {ref: node => {
 	            input = node;
-	        }}), React.createElement("button", {type: "submit"}, "Add Reddit"))));
+	        }}), React.createElement("button", {type: 'submit'}, "Add Reddit"))));
 	    }
 	}
 	Object.defineProperty(exports, "__esModule", { value: true });
