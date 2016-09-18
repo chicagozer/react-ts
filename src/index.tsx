@@ -2,7 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {Provider} from "react-redux";
 import * as createLogger  from 'redux-logger'
-import {createStore, applyMiddleware} from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
 import thunk from 'redux-thunk';
 import reducer from './reducers';
 import App from './containers/App';
@@ -12,11 +12,12 @@ const middleware = [thunk]
 
 var hack: any = createLogger();
 middleware.push(hack);
-
+declare var window:any;
 
 const store = createStore(
     reducer,
-    applyMiddleware(...middleware)
+    compose(applyMiddleware(...middleware),
+    window.devToolsExtension ? window.devToolsExtension() : f => f)
 )
 
 ReactDOM.render(
