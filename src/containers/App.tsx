@@ -1,9 +1,9 @@
 import * as React from 'react'
 import {connect} from 'react-redux'
-import {selectReddit, fetchPostsIfNeeded, invalidateReddit, Action} from '../actions'
+import {selectReddit, fetchPostsIfNeeded, invalidateReddit} from '../actions'
 import Picker from '../components/Picker'
 import Posts from '../components/Posts'
-import {RootState, RedditState} from '../reducers'
+import {RootState} from '../reducers'
 import AddReddit from '../components/AddReddit'
 
 interface AppProps {
@@ -61,7 +61,7 @@ class App extends React.Component<AppProps,{}> {
             </span>
                     }
                     {!this.props.isFetching &&
-                    <a href="#"
+                    <a href='#'
                        onClick={this.handleRefreshClick}>
                         Refresh
                     </a>
@@ -81,9 +81,9 @@ class App extends React.Component<AppProps,{}> {
 function mapStateToProps(state: RootState): AppProps {
     const {selectedReddit, postsByReddit} = state
 
-    var posts: any = [];
-    var isFetching: boolean = true;
-    var lastUpdated: number;
+    let posts: any = [];
+    let isFetching = true;
+    let lastUpdated: number;
 
     if (postsByReddit[selectedReddit]) {
         posts = postsByReddit[selectedReddit].items || [];

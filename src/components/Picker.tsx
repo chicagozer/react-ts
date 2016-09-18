@@ -6,9 +6,9 @@ interface PickerProps {
     onChange: Function
 }
 
-class Picker extends React.Component<PickerProps,{}> {
+class Picker extends React.Component< PickerProps, {} > {
 
-    constructor(props: any) {
+    constructor(props: PickerProps) {
         super(props);
     }
 

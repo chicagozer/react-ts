@@ -1,10 +1,11 @@
-import 'whatwg-fetch'
+import 'whatwg-fetch';
+import {RootState} from '../reducers/index';
 
-export const REQUEST_POSTS: string = 'REQUEST_POSTS'
-export const RECEIVE_POSTS: string = 'RECEIVE_POSTS'
-export const SELECT_REDDIT: string = 'SELECT_REDDIT'
-export const INVALIDATE_REDDIT: string = 'INVALIDATE_REDDIT'
-export const ADD_REDDIT: string = 'ADD_REDDIT'
+export const REQUEST_POSTS = 'REQUEST_POSTS';
+export const RECEIVE_POSTS = 'RECEIVE_POSTS';
+export const SELECT_REDDIT = 'SELECT_REDDIT';
+export const INVALIDATE_REDDIT = 'INVALIDATE_REDDIT';
+export const ADD_REDDIT = 'ADD_REDDIT';
 
 
 export interface Action {
@@ -19,49 +20,49 @@ export function addReddit(reddit: string): Action {
     return {
         type: ADD_REDDIT,
         reddit
-    }
+    };
 }
 
 export function selectReddit(reddit: string): Action {
     return {
         type: SELECT_REDDIT,
         reddit
-    }
+    };
 }
 
-export function invalidateReddit(reddit: string) {
+export function invalidateReddit(reddit: string): Action {
     return {
         type: INVALIDATE_REDDIT,
         reddit
-    }
+    };
 }
 
-function requestPosts(reddit: string) {
+function requestPosts(reddit: string): Action {
     return {
         type: REQUEST_POSTS,
         reddit
-    }
+    };
 }
 
-function receivePosts(reddit: string, json: any) {
+function receivePosts(reddit: string, json: any): Action {
     return {
         type: RECEIVE_POSTS,
         reddit,
         posts: json.data.children.map((child: any) => child.data),
         receivedAt: Date.now()
-    }
+    };
 }
 
-function fetchPosts(reddit: string) {
+function fetchPosts(reddit: string): Function {
     return (dispatch: Function) => {
         dispatch(requestPosts(reddit))
         return fetch(`https://www.reddit.com/r/${reddit}.json`)
-            .then((response: any) => response.json())
+            .then((response: Response) => response.json())
             .then((json: any) => dispatch(receivePosts(reddit, json)))
     }
 }
 
-function shouldFetchPosts(state: any, reddit: string) {
+function shouldFetchPosts(state: RootState, reddit: string): boolean {
     const posts = state.postsByReddit[reddit]
     if (!posts) {
         return true
@@ -72,7 +73,7 @@ function shouldFetchPosts(state: any, reddit: string) {
     }
 }
 
-export function fetchPostsIfNeeded(reddit: string) {
+export function fetchPostsIfNeeded(reddit: string): Function {
     return (dispatch: Function, getState: Function) => {
         if (shouldFetchPosts(getState(), reddit)) {
             return dispatch(fetchPosts(reddit))

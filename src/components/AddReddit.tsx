@@ -1,14 +1,12 @@
-import * as React from 'react'
-import {connect} from 'react-redux'
-import {addReddit} from '../actions'
+import * as React from 'react';
 
 interface AddRedditProps {
 
-    onSubmit: Function
+    onSubmit: Function;
 }
-class AddReddit extends React.Component<AddRedditProps,{}> {
+class AddReddit extends React.Component< AddRedditProps, { } > {
 
-    constructor(props: any) {
+    constructor(props: AddRedditProps) {
         super(props);
     }
 
@@ -33,7 +31,7 @@ class AddReddit extends React.Component<AddRedditProps,{}> {
                     <input ref={node => {
           input = node
         }}/>
-                    <button type="submit">
+                    <button type='submit'>
                         Add Reddit
                     </button>
                 </form>
