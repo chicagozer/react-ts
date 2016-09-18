@@ -8,16 +8,15 @@ import reducer from './reducers';
 import App from './containers/App';
 
 
-const middleware = [thunk]
+const middleware = [thunk, createLogger()]
 
-var hack: any = createLogger();
-middleware.push(hack);
+// this is a bit hacky - not sure how to cast (<any>window) without JSX getting upset
 declare var window:any;
 
 const store = createStore(
     reducer,
     compose(applyMiddleware(...middleware),
-    window.devToolsExtension ? window.devToolsExtension() : f => f)
+        window.devToolsExtension ? window.devToolsExtension() : f => f)
 )
 
 ReactDOM.render(
