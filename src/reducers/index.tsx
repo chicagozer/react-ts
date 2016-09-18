@@ -6,6 +6,7 @@ import {
 
 
 export interface RedditState {
+    // we need to use any because we don't know the structure of the json
     [key: string]: any;
 }
 

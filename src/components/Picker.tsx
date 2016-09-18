@@ -13,8 +13,8 @@ class Picker extends React.Component< PickerProps, {} > {
     }
 
 
-    public handleOnChange(event: any): void {
-        this.props.onChange(event.target.value)
+    public handleOnChange(event: React.FormEvent): void {
+        this.props.onChange((event.target as HTMLSelectElement).value)
     }
 
 
