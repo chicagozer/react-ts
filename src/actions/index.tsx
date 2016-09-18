@@ -46,7 +46,7 @@ function receivePosts(reddit:string, json:any) {
 function fetchPosts(reddit:string) {
   return (dispatch:Function) => {
     dispatch(requestPosts(reddit))
-    return fetch(`http://www.reddit.com/r/${reddit}.json`)
+    return fetch(`https://www.reddit.com/r/${reddit}.json`)
         .then((response:any) => response.json())
         .then((json:any) => dispatch(receivePosts(reddit, json)))
   }
