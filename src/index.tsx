@@ -1,17 +1,17 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Provider } from "react-redux";
+import {Provider} from "react-redux";
 import * as createLogger  from 'redux-logger'
-import { createStore, applyMiddleware } from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import reducer from './reducers';
 import App from './containers/App';
 
 
-const middleware = [ thunk ]
+const middleware = [thunk]
 
-    var hack : any = createLogger();
-    middleware.push(hack);
+var hack: any = createLogger();
+middleware.push(hack);
 
 
 const store = createStore(
@@ -22,6 +22,6 @@ const store = createStore(
 ReactDOM.render(
     <Provider store={store}>
         <App />
-        </Provider>,
+    </Provider>,
     document.getElementById("root")
 );

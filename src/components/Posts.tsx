@@ -1,8 +1,8 @@
 import * as React from 'react'
 
 interface PostsProps {
-  posts: any[];
-  }
+    posts: any[];
+}
 
 class Posts extends React.Component<PostsProps,{}> {
 
@@ -13,10 +13,10 @@ class Posts extends React.Component<PostsProps,{}> {
 
     render() {
         return (<ul>
-                {this.props.posts.map((post: any, i: number) =>
-                    <li key={i}>{post.title}</li>
-                )}
-            </ul>)
+            {this.props.posts.map((post: any, i: number) =>
+                <li key={i}>{post.title}</li>
+            )}
+        </ul>)
     }
 }
 

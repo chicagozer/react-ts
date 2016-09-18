@@ -1,16 +1,18 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
-import { selectReddit, fetchPostsIfNeeded, invalidateReddit, Action } from '../actions'
+import {connect} from 'react-redux'
+import {selectReddit, fetchPostsIfNeeded, invalidateReddit, Action} from '../actions'
 import Picker from '../components/Picker'
 import Posts from '../components/Posts'
-import { RootState, RedditState } from '../reducers'
+import {RootState, RedditState} from '../reducers'
+import AddReddit from '../components/AddReddit'
 
 interface AppProps {
-  selectedReddit: string;
-  posts: any[];
-  isFetching: boolean,
-  lastUpdated?: number;
-  dispatch?: Function;
+    selectedReddit: string;
+    posts: any[];
+    reddits: string[];
+    isFetching: boolean,
+    lastUpdated?: number;
+    dispatch?: Function;
 }
 
 class App extends React.Component<AppProps,{}> {
@@ -33,7 +35,7 @@ class App extends React.Component<AppProps,{}> {
 
     handleChange = (nextReddit: string) => this.props.dispatch(selectReddit(nextReddit))
 
-    handleRefreshClick = (e: any) => {
+    handleRefreshClick = (e: Event) => {
         e.preventDefault()
 
         const {dispatch, selectedReddit} = this.props
@@ -46,9 +48,11 @@ class App extends React.Component<AppProps,{}> {
 
         return (
             <div>
+                <AddReddit onSubmit={this.handleChange}/>
+
                 <Picker value={this.props.selectedReddit}
                         onChange={this.handleChange}
-                        options={[ 'reactjs', 'frontend', 'pettyrevenge' ]}/>
+                        options={ this.props.reddits}/>
                 <p>
                     {this.props.lastUpdated &&
                     <span>
@@ -74,15 +78,14 @@ class App extends React.Component<AppProps,{}> {
     }
 }
 
-function mapStateToProps(state:RootState) : AppProps {
-    const { selectedReddit , postsByReddit } = state
+function mapStateToProps(state: RootState): AppProps {
+    const {selectedReddit, postsByReddit} = state
 
-    var posts : any = [];
-    var isFetching : boolean = true;
-    var lastUpdated : number;
+    var posts: any = [];
+    var isFetching: boolean = true;
+    var lastUpdated: number;
 
-    if (postsByReddit[selectedReddit])
-    {
+    if (postsByReddit[selectedReddit]) {
         posts = postsByReddit[selectedReddit].items || [];
         isFetching = postsByReddit[selectedReddit].isFetching;
         lastUpdated = postsByReddit[selectedReddit].lastUpdated;
@@ -91,6 +94,7 @@ function mapStateToProps(state:RootState) : AppProps {
 
     return {
         selectedReddit,
+        reddits: Object.keys(postsByReddit),
         posts,
         isFetching,
         lastUpdated
