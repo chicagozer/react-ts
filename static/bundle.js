@@ -46,18 +46,18 @@
 
 	"use strict";
 	
-	const React = __webpack_require__(1);
-	const ReactDOM = __webpack_require__(2);
-	const react_redux_1 = __webpack_require__(3);
-	const createLogger = __webpack_require__(28);
-	const redux_1 = __webpack_require__(11);
-	const redux_thunk_1 = __webpack_require__(29);
-	const reducers_1 = __webpack_require__(30);
-	const App_1 = __webpack_require__(33);
-	const middleware = [redux_thunk_1.default];
+	var React = __webpack_require__(1);
+	var ReactDOM = __webpack_require__(2);
+	var react_redux_1 = __webpack_require__(3);
+	var createLogger = __webpack_require__(28);
+	var redux_1 = __webpack_require__(11);
+	var redux_thunk_1 = __webpack_require__(29);
+	var reducers_1 = __webpack_require__(30);
+	var App_1 = __webpack_require__(33);
+	var middleware = [redux_thunk_1.default];
 	var hack = createLogger();
 	middleware.push(hack);
-	const store = redux_1.createStore(reducers_1.default, redux_1.applyMiddleware(...middleware));
+	var store = redux_1.createStore(reducers_1.default, redux_1.applyMiddleware.apply(redux_1, middleware));
 	ReactDOM.render(React.createElement(react_redux_1.Provider, { store: store }, React.createElement(App_1.default, null)), document.getElementById("root"));
 
 /***/ },
@@ -2128,9 +2128,14 @@
 
 	"use strict";
 	
-	const redux_1 = __webpack_require__(11);
-	const actions_1 = __webpack_require__(31);
-	function selectedReddit(state = 'reactjs', action) {
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	var redux_1 = __webpack_require__(11);
+	var actions_1 = __webpack_require__(31);
+	function selectedReddit() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? 'reactjs' : arguments[0];
+	    var action = arguments[1];
+	
 	    switch (action.type) {
 	        case actions_1.SELECT_REDDIT:
 	            return action.reddit;
@@ -2138,11 +2143,14 @@
 	            return state;
 	    }
 	}
-	function posts(state = {
-	    isFetching: false,
-	    didInvalidate: false,
-	    items: []
-	}, action) {
+	function posts() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {
+	        isFetching: false,
+	        didInvalidate: false,
+	        items: []
+	    } : arguments[0];
+	    var action = arguments[1];
+	
 	    switch (action.type) {
 	        case actions_1.INVALIDATE_REDDIT:
 	            return Object.assign({}, state, {
@@ -2164,19 +2172,20 @@
 	            return state;
 	    }
 	}
-	function postsByReddit(state = {}, action) {
+	function postsByReddit() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	    var action = arguments[1];
+	
 	    switch (action.type) {
 	        case actions_1.INVALIDATE_REDDIT:
 	        case actions_1.RECEIVE_POSTS:
 	        case actions_1.REQUEST_POSTS:
-	            return Object.assign({}, state, {
-	                [action.reddit]: posts(state[action.reddit], action)
-	            });
+	            return Object.assign({}, state, _defineProperty({}, action.reddit, posts(state[action.reddit], action)));
 	        default:
 	            return state;
 	    }
 	}
-	const rootReducer = redux_1.combineReducers({
+	var rootReducer = redux_1.combineReducers({
 	    postsByReddit: postsByReddit,
 	    selectedReddit: selectedReddit
 	});
@@ -2226,18 +2235,24 @@
 	    return {
 	        type: exports.RECEIVE_POSTS,
 	        reddit: reddit,
-	        posts: json.data.children.map(child => child.data),
+	        posts: json.data.children.map(function (child) {
+	            return child.data;
+	        }),
 	        receivedAt: Date.now()
 	    };
 	}
 	function fetchPosts(reddit) {
-	    return dispatch => {
+	    return function (dispatch) {
 	        dispatch(requestPosts(reddit));
-	        return fetch(`https://www.reddit.com/r/${ reddit }.json`).then(response => response.json()).then(json => dispatch(receivePosts(reddit, json)));
+	        return fetch('https://www.reddit.com/r/' + reddit + '.json').then(function (response) {
+	            return response.json();
+	        }).then(function (json) {
+	            return dispatch(receivePosts(reddit, json));
+	        });
 	    };
 	}
 	function shouldFetchPosts(state, reddit) {
-	    const posts = state.postsByReddit[reddit];
+	    var posts = state.postsByReddit[reddit];
 	    if (!posts) {
 	        return true;
 	    } else if (posts.isFetching) {
@@ -2247,7 +2262,7 @@
 	    }
 	}
 	function fetchPostsIfNeeded(reddit) {
-	    return (dispatch, getState) => {
+	    return function (dispatch, getState) {
 	        if (shouldFetchPosts(getState(), reddit)) {
 	            return dispatch(fetchPosts(reddit));
 	        }
@@ -2700,42 +2715,77 @@
 
 	"use strict";
 	
-	const React = __webpack_require__(1);
-	const react_redux_1 = __webpack_require__(3);
-	const actions_1 = __webpack_require__(31);
-	const Picker_1 = __webpack_require__(34);
-	const Posts_1 = __webpack_require__(35);
-	const AddReddit_1 = __webpack_require__(36);
-	class App extends React.Component {
-	    constructor(props) {
-	        super(props);
-	        this.handleChange = nextReddit => this.props.dispatch(actions_1.selectReddit(nextReddit));
-	        this.handleRefreshClick = e => {
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var React = __webpack_require__(1);
+	var react_redux_1 = __webpack_require__(3);
+	var actions_1 = __webpack_require__(31);
+	var Picker_1 = __webpack_require__(34);
+	var Posts_1 = __webpack_require__(35);
+	var AddReddit_1 = __webpack_require__(36);
+	
+	var App = function (_React$Component) {
+	    _inherits(App, _React$Component);
+	
+	    function App(props) {
+	        _classCallCheck(this, App);
+	
+	        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+	
+	        _this.handleChange = function (nextReddit) {
+	            return _this.props.dispatch(actions_1.selectReddit(nextReddit));
+	        };
+	        _this.handleRefreshClick = function (e) {
 	            e.preventDefault();
-	            const { dispatch, selectedReddit } = this.props;
+	            var _this$props = _this.props;
+	            var dispatch = _this$props.dispatch;
+	            var selectedReddit = _this$props.selectedReddit;
+	
 	            dispatch(actions_1.invalidateReddit(selectedReddit));
 	            dispatch(actions_1.fetchPostsIfNeeded(selectedReddit));
 	        };
+	        return _this;
 	    }
-	    componentDidMount() {
-	        this.props.dispatch(actions_1.fetchPostsIfNeeded(this.props.selectedReddit));
-	    }
-	    componentWillReceiveProps(nextProps) {
-	        if (nextProps.selectedReddit !== this.props.selectedReddit) {
-	            const { dispatch, selectedReddit } = nextProps;
-	            dispatch(actions_1.fetchPostsIfNeeded(selectedReddit));
+	
+	    _createClass(App, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.props.dispatch(actions_1.fetchPostsIfNeeded(this.props.selectedReddit));
 	        }
-	    }
-	    render() {
-	        const isEmpty = this.props.posts.length === 0;
-	        return React.createElement("div", null, React.createElement(AddReddit_1.default, { onSubmit: this.handleChange }), React.createElement(Picker_1.default, { value: this.props.selectedReddit, onChange: this.handleChange, options: this.props.reddits }), React.createElement("p", null, this.props.lastUpdated && React.createElement("span", null, "Last updated at ", new Date(this.props.lastUpdated).toLocaleTimeString(), ".", ' '), !this.props.isFetching && React.createElement("a", { href: '#', onClick: this.handleRefreshClick }, "Refresh")), isEmpty ? this.props.isFetching ? React.createElement("h2", null, "Loading...") : React.createElement("h2", null, "Empty.") : React.createElement("div", { style: { opacity: this.props.isFetching ? 0.5 : 1 } }, React.createElement(Posts_1.default, { posts: this.props.posts })));
-	    }
-	}
+	    }, {
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(nextProps) {
+	            if (nextProps.selectedReddit !== this.props.selectedReddit) {
+	                var dispatch = nextProps.dispatch;
+	                var selectedReddit = nextProps.selectedReddit;
+	
+	                dispatch(actions_1.fetchPostsIfNeeded(selectedReddit));
+	            }
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var isEmpty = this.props.posts.length === 0;
+	            return React.createElement("div", null, React.createElement(AddReddit_1.default, { onSubmit: this.handleChange }), React.createElement(Picker_1.default, { value: this.props.selectedReddit, onChange: this.handleChange, options: this.props.reddits }), React.createElement("p", null, this.props.lastUpdated && React.createElement("span", null, "Last updated at ", new Date(this.props.lastUpdated).toLocaleTimeString(), ".", ' '), !this.props.isFetching && React.createElement("a", { href: '#', onClick: this.handleRefreshClick }, "Refresh")), isEmpty ? this.props.isFetching ? React.createElement("h2", null, "Loading...") : React.createElement("h2", null, "Empty.") : React.createElement("div", { style: { opacity: this.props.isFetching ? 0.5 : 1 } }, React.createElement(Posts_1.default, { posts: this.props.posts })));
+	        }
+	    }]);
+	
+	    return App;
+	}(React.Component);
+	
 	function mapStateToProps(state) {
-	    const { selectedReddit, postsByReddit } = state;
-	    let posts = [];
-	    let isFetching = true;
-	    let lastUpdated;
+	    var selectedReddit = state.selectedReddit;
+	    var postsByReddit = state.postsByReddit;
+	
+	    var posts = [];
+	    var isFetching = true;
+	    var lastUpdated = void 0;
 	    if (postsByReddit[selectedReddit]) {
 	        posts = postsByReddit[selectedReddit].items || [];
 	        isFetching = postsByReddit[selectedReddit].isFetching;
@@ -2758,18 +2808,46 @@
 
 	"use strict";
 	
-	const React = __webpack_require__(1);
-	class Picker extends React.Component {
-	    constructor(props) {
-	        super(props);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var React = __webpack_require__(1);
+	
+	var Picker = function (_React$Component) {
+	    _inherits(Picker, _React$Component);
+	
+	    function Picker(props) {
+	        _classCallCheck(this, Picker);
+	
+	        return _possibleConstructorReturn(this, (Picker.__proto__ || Object.getPrototypeOf(Picker)).call(this, props));
 	    }
-	    handleOnChange(event) {
-	        this.props.onChange(event.target.value);
-	    }
-	    render() {
-	        return React.createElement("span", null, React.createElement("h1", null, this.props.value), React.createElement("select", { onChange: e => this.handleOnChange(e), value: this.props.value }, this.props.options.map(option => React.createElement("option", { value: option, key: option }, option))));
-	    }
-	}
+	
+	    _createClass(Picker, [{
+	        key: "handleOnChange",
+	        value: function handleOnChange(event) {
+	            this.props.onChange(event.target.value);
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            var _this2 = this;
+	
+	            return React.createElement("span", null, React.createElement("h1", null, this.props.value), React.createElement("select", { onChange: function onChange(e) {
+	                    return _this2.handleOnChange(e);
+	                }, value: this.props.value }, this.props.options.map(function (option) {
+	                return React.createElement("option", { value: option, key: option }, option);
+	            })));
+	        }
+	    }]);
+	
+	    return Picker;
+	}(React.Component);
+	
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = Picker;
 
@@ -2779,15 +2857,37 @@
 
 	"use strict";
 	
-	const React = __webpack_require__(1);
-	class Posts extends React.Component {
-	    constructor(props) {
-	        super(props);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var React = __webpack_require__(1);
+	
+	var Posts = function (_React$Component) {
+	    _inherits(Posts, _React$Component);
+	
+	    function Posts(props) {
+	        _classCallCheck(this, Posts);
+	
+	        return _possibleConstructorReturn(this, (Posts.__proto__ || Object.getPrototypeOf(Posts)).call(this, props));
 	    }
-	    render() {
-	        return React.createElement("ul", null, this.props.posts.map((post, i) => React.createElement("li", { key: i }, post.title)));
-	    }
-	}
+	
+	    _createClass(Posts, [{
+	        key: "render",
+	        value: function render() {
+	            return React.createElement("ul", null, this.props.posts.map(function (post, i) {
+	                return React.createElement("li", { key: i }, post.title);
+	            }));
+	        }
+	    }]);
+	
+	    return Posts;
+	}(React.Component);
+	
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = Posts;
 
@@ -2797,28 +2897,52 @@
 
 	"use strict";
 	
-	const React = __webpack_require__(1);
-	class AddReddit extends React.Component {
-	    constructor(props) {
-	        super(props);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var React = __webpack_require__(1);
+	
+	var AddReddit = function (_React$Component) {
+	    _inherits(AddReddit, _React$Component);
+	
+	    function AddReddit(props) {
+	        _classCallCheck(this, AddReddit);
+	
+	        return _possibleConstructorReturn(this, (AddReddit.__proto__ || Object.getPrototypeOf(AddReddit)).call(this, props));
 	    }
-	    handleOnSubmit(reddit) {
-	        this.props.onSubmit(reddit);
-	    }
-	    render() {
-	        let input;
-	        return React.createElement("div", null, React.createElement("form", { onSubmit: e => {
-	                e.preventDefault();
-	                if (!input.value.trim()) {
-	                    return;
-	                }
-	                this.handleOnSubmit(input.value);
-	                input.value = '';
-	            } }, React.createElement("input", { ref: node => {
-	                input = node;
-	            } }), React.createElement("button", { type: 'submit' }, "Add Reddit")));
-	    }
-	}
+	
+	    _createClass(AddReddit, [{
+	        key: "handleOnSubmit",
+	        value: function handleOnSubmit(reddit) {
+	            this.props.onSubmit(reddit);
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            var _this2 = this;
+	
+	            var input = void 0;
+	            return React.createElement("div", null, React.createElement("form", { onSubmit: function onSubmit(e) {
+	                    e.preventDefault();
+	                    if (!input.value.trim()) {
+	                        return;
+	                    }
+	                    _this2.handleOnSubmit(input.value);
+	                    input.value = '';
+	                } }, React.createElement("input", { ref: function ref(node) {
+	                    input = node;
+	                } }), React.createElement("button", { type: 'submit' }, "Add Reddit")));
+	        }
+	    }]);
+	
+	    return AddReddit;
+	}(React.Component);
+	
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = AddReddit;
 
